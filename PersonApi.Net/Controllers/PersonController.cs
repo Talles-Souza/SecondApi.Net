@@ -21,10 +21,12 @@ namespace UdemyApi.Controllers
             return Ok(_personService.FindAll);
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetById(long id)
         {
-            return Ok(_personService.FindByID(id));
+            var person = _personService.FindByID(id);
+            if (person == null) return NotFound();  
+            return Ok();
         }
     }
 }
