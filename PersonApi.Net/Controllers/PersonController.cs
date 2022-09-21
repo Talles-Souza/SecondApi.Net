@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PersonApi.Net.Services;
 
 namespace UdemyApi.Controllers
 {
@@ -7,44 +8,23 @@ namespace UdemyApi.Controllers
     public class PersonController : ControllerBase
     {
         private ILogger<PersonController> _logger;
-
-        public PersonController(ILogger<PersonController> logger)
+        private IPersonService _personService;
+        public PersonController(ILogger<PersonController> logger, IPersonService personService)
         {
             _logger = logger;
+            _personService = personService;
         }
 
-        [HttpGet("sum/{firstNumber}/{secondNumber}")]
-        public IActionResult Sum(string firstNumber, string secondNumber)
+        [HttpGet]
+        public IActionResult Get()
         {
-
-            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
-            {
-                var sum = ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber);
-                return Ok(sum.ToString());
-            }
-
-            return BadRequest("Invalid Input");
+            return Ok(_personService.FindAll);
         }
 
-        
-
-        private decimal ConvertToDecimal(string firstNumber)
+        [HttpGet]
+        public IActionResult GetById(long id)
         {
-            decimal decimalValue;
-            if (decimal.TryParse(firstNumber, out decimalValue))
-            {
-                return decimalValue;
-            }
-            return 0;
-        }
-
-        private bool IsNumeric(string firstNumber)
-        {
-            double number;
-            bool isNumber = double.TryParse(firstNumber,
-                System.Globalization.NumberStyles.Any,
-                System.Globalization.NumberFormatInfo.InvariantInfo, out number);
-            return isNumber;
+            return Ok(_personService.FindByID(id));
         }
     }
 }
