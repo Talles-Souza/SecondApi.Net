@@ -55,7 +55,7 @@ namespace PersonApi.Net.Services.Implementations
                 FirstName = "Person Name"+i,
                 LastName = "Person LastName"+i,
                 Address = "Some Address"+i,
-                Gender = "Male"
+                Gender = "Male"+i
             };
         }
 

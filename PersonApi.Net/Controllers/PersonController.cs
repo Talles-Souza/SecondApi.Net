@@ -5,7 +5,7 @@ using PersonApi.Net.Services;
 namespace UdemyApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PersonController : ControllerBase
     {
         private ILogger<PersonController> _logger;
@@ -19,7 +19,8 @@ namespace UdemyApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_personService.FindAll);
+            object findAll = _personService.FindAll;
+            return base.Ok(findAll);
         }
 
         [HttpGet("{id}")]
